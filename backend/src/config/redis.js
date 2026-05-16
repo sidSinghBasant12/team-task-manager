@@ -1,7 +1,13 @@
 const Redis = require('ioredis');
 const logger = require('./logger');
 
-const redisConnection = new Redis(process.env.REDIS_URL, {
+const redisUrl = process.env.REDIS_URL;
+
+if (!redisUrl) {
+  throw new Error('REDIS_URL is not defined in environment variables');
+}
+
+const redisConnection = new Redis(redisUrl, {
   maxRetriesPerRequest: null,
 });
 
