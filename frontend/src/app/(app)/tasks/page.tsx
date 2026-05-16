@@ -8,7 +8,7 @@ import api from '@/lib/axios';
 
 export default function TasksPage() {
   const { user } = useSelector((state: RootState) => state.auth);
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,8 +22,8 @@ export default function TasksPage() {
   const [assignedTo, setAssignedTo] = useState('');
   const [dueDate, setDueDate] = useState('');
 
-  const [projects, setProjects] = useState([]);
-  const [members, setMembers] = useState([]);
+  const [projects, setProjects] = useState<any[]>([]);
+  const [members, setMembers] = useState<any[]>([]);
 
   useEffect(() => {
     fetchTasks();

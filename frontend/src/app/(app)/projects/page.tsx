@@ -8,7 +8,7 @@ import api from '@/lib/axios';
 
 export default function ProjectsPage() {
   const { user } = useSelector((state: RootState) => state.auth);
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
