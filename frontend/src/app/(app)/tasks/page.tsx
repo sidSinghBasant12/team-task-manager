@@ -10,6 +10,7 @@ export default function TasksPage() {
   const { user } = useSelector((state: RootState) => state.auth);
   const [tasks, setTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
