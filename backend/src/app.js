@@ -16,14 +16,14 @@ const app = express();
 |--------------------------------------------------------------------------
 */
 
-// Helmet
+// Helmet Configuration
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
   })
 );
 
-// Allowed Frontend Origins
+// Allowed Origins
 const allowedOrigins = [
   'http://localhost:3000',
   process.env.FRONTEND_URL,
@@ -32,19 +32,44 @@ const allowedOrigins = [
 // CORS Configuration
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow requests without origin (Postman, mobile apps, curl)
-      if (!origin) return callback(null, true);
+    origin: (origin, callback) => {
+      // Allow requests with no origin
+      if (!origin) {
+        return callback(null, true);
+      }
 
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
 
-      return callback(new Error('Not allowed by CORS'));
+      console.log('Blocked by CORS:', origin);
+
+      return callback(
+        new Error(`CORS not allowed for origin: ${origin}`),
+        false
+      );
     },
+
     credentials: true,
+
+    methods: [
+      'GET',
+      'POST',
+      'PUT',
+      'PATCH',
+      'DELETE',
+      'OPTIONS',
+    ],
+
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+    ],
   })
 );
+
+// Handle Preflight Requests
+app.options('*', cors());
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +80,8 @@ app.use(
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 Minutes
   max: 100,
-  message: 'Too many requests from this IP, please try again after 15 minutes',
+  message:
+    'Too many requests from this IP, please try again after 15 minutes',
 });
 
 app.use('/api', limiter);
@@ -133,6 +159,7 @@ app.use((err, req, res, next) => {
 
   res.status(err.status || 500).json({
     error: err.message || 'Internal Server Error',
+
     ...(process.env.NODE_ENV === 'development' && {
       stack: err.stack,
     }),
