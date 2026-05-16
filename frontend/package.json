@@ -8,6 +8,7 @@
   "scripts": {
   "dev": "next dev",
   "build": "next build",
+  "postbuild": "node -e \"const fs = require('fs'); if(fs.existsSync('.next/static')) fs.cpSync('.next/static', '.next/standalone/.next/static', {recursive: true}); if(fs.existsSync('public')) fs.cpSync('public', '.next/standalone/public', {recursive: true});\"",
   "start": "HOSTNAME=0.0.0.0 node .next/standalone/server.js",
   "lint": "eslint"
 },
