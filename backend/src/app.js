@@ -30,44 +30,10 @@ const allowedOrigins = [
 ];
 
 // CORS Configuration
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin
-      if (!origin) {
-        return callback(null, true);
-      }
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      console.log('Blocked by CORS:', origin);
-
-      return callback(
-        new Error(`CORS not allowed for origin: ${origin}`),
-        false
-      );
-    },
-
-    credentials: true,
-
-    methods: [
-      'GET',
-      'POST',
-      'PUT',
-      'PATCH',
-      'DELETE',
-      'OPTIONS',
-    ],
-
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-    ],
-  })
-);
-
+app.use(cors({
+  origin: true,
+  credentials: true,
+}));
 // Handle Preflight Requests
 app.options('*', cors());
 
