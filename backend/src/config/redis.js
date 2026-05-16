@@ -1,13 +1,9 @@
 const Redis = require('ioredis');
 const logger = require('./logger');
 
-const redisOptions = {
-  host: process.env.REDIS_HOST || '127.0.0.1',
-  port: process.env.REDIS_PORT || 6379,
-  maxRetriesPerRequest: null, // Required by bullmq
-};
-
-const redisConnection = new Redis(redisOptions);
+const redisConnection = new Redis(process.env.REDIS_URL, {
+  maxRetriesPerRequest: null,
+});
 
 redisConnection.on('error', (err) => {
   logger.error('Redis Connection Error:', err);
