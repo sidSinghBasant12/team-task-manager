@@ -98,3 +98,5 @@
 {"level":"info","message":"::1 - - [16/May/2026:12:48:54 +0000] \"GET /api/v1/tasks HTTP/1.1\" 304 - \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0\"","service":"taskforge-api","timestamp":"2026-05-16 18:18:54"}
 {"level":"info","message":"Server is running on port 5000 in development mode","service":"taskforge-api","timestamp":"2026-05-16 18:23:02"}
 {"level":"info","message":"Connected to Redis successfully","service":"taskforge-api","timestamp":"2026-05-16 18:23:02"}
+{"level":"info","message":"Server is running on port 5000 in development mode","service":"taskforge-api","timestamp":"2026-05-16 20:00:44"}
+{"level":"info","message":"Connected to Redis successfully","service":"taskforge-api","timestamp":"2026-05-16 20:00:44"}
