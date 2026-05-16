@@ -1,0 +1,173 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  avatar    String?
+  role      Role     @default(VIEWER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  teamsCreated Teams[]        @relation("TeamCreator")
+  teamMembers  TeamMember[]
+  tasksAssigned Task[]        @relation("TaskAssignee")
+  tasksCreated  Task[]        @relation("TaskCreator")
+  projectsAssigned Project[]  @relation("ProjectAssignments")
+  comments      Comment[]
+  notifications Notification[]
+  activityLogs  ActivityLog[]
+  attachments   Attachment[]
+}
+
+enum Role {
+  ADMIN
+  PROJECT_MANAGER
+  TEAM_LEAD
+  DEVELOPER
+  VIEWER
+}
+
+model Teams {
+  id          String   @id @default(uuid())
+  teamName    String
+  createdBy   String
+  creator     User     @relation("TeamCreator", fields: [createdBy], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members     TeamMember[]
+  projects    Project[]
+}
+
+model TeamMember {
+  id        String   @id @default(uuid())
+  teamId    String
+  userId    String
+  role      Role     @default(DEVELOPER)
+  
+  team      Teams    @relation(fields: [teamId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([teamId, userId])
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  projectName String
+  description String?
+  status      ProjectStatus @default(ACTIVE)
+  deadline    DateTime?
+  progress    Int      @default(0)
+  teamId      String
+  
+  team          Teams    @relation(fields: [teamId], references: [id])
+  tasks         Task[]
+  assignedUsers User[]   @relation("ProjectAssignments")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum ProjectStatus {
+  ACTIVE
+  COMPLETED
+  ON_HOLD
+}
+
+model Task {
+  id              String   @id @default(uuid())
+  title           String
+  description     String?
+  priority        Priority @default(MEDIUM)
+  status          TaskStatus @default(TODO)
+  assignedTo      String?
+  createdBy       String
+  projectId       String
+  dueDate         DateTime?
+  estimatedHours  Int?
+  actualHours     Int      @default(0)
+  dependencyTaskId String?
+
+  assignee        User?    @relation("TaskAssignee", fields: [assignedTo], references: [id])
+  creator         User     @relation("TaskCreator", fields: [createdBy], references: [id])
+  project         Project  @relation(fields: [projectId], references: [id])
+  
+  dependentTask   Task?    @relation("TaskDependency", fields: [dependencyTaskId], references: [id])
+  blockingTasks   Task[]   @relation("TaskDependency")
+
+  comments        Comment[]
+  activityLogs    ActivityLog[]
+  attachments     Attachment[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  TESTING
+  COMPLETED
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  taskId    String
+  userId    String
+  message   String
+  
+  task      Task     @relation(fields: [taskId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  message   String
+  isRead    Boolean  @default(false)
+  
+  user      User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  userId    String
+  action    String
+  taskId    String?
+  
+  user      User     @relation(fields: [userId], references: [id])
+  task      Task?    @relation(fields: [taskId], references: [id])
+
+  timestamp DateTime @default(now())
+}
+
+model Attachment {
+  id        String   @id @default(uuid())
+  taskId    String
+  fileUrl   String
+  uploadedBy String
+
+  task      Task     @relation(fields: [taskId], references: [id])
+  user      User     @relation(fields: [uploadedBy], references: [id])
+
+  createdAt DateTime @default(now())
+}
