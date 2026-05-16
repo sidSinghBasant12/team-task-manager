@@ -40,7 +40,7 @@ export default function SettingsPage() {
 
     try {
       const response = await api.put('/users/profile', { name, email });
-      dispatch(setCredentials({ user: response.data, token }));
+      dispatch(setCredentials({ user: response.data, token: token as string }));
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (err: any) {
