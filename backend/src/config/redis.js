@@ -1,10 +1,10 @@
 const Redis = require('ioredis');
 const logger = require('./logger');
 
-const redisUrl = process.env.REDIS_URL;
+const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
 
-if (!redisUrl) {
-  throw new Error('REDIS_URL is not defined in environment variables');
+if (!process.env.REDIS_URL) {
+  logger.warn('REDIS_URL is not defined in environment variables. Falling back to redis://localhost:6379');
 }
 
 const redisConnection = new Redis(redisUrl, {

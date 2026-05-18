@@ -1,5 +1,12 @@
 const winston = require('winston');
+const fs = require('fs');
+const path = require('path');
 
+// Ensure logs directory exists to prevent ENOENT crash in production
+const logDir = path.join(process.cwd(), 'logs');
+if (!fs.existsSync(logDir)) {
+  fs.mkdirSync(logDir, { recursive: true });
+}
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(

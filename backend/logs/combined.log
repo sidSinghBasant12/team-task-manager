@@ -103,3 +103,9 @@
 {"level":"info","message":"Server is running on port 5000 in development mode","service":"taskforge-api","timestamp":"2026-05-17 01:45:33"}
 {"level":"info","message":"Connected to Redis successfully","service":"taskforge-api","timestamp":"2026-05-17 01:45:33"}
 {"level":"info","message":"::1 - - [16/May/2026:20:21:27 +0000] \"POST /api/v1/auth/login HTTP/1.1\" 200 351 \"http://localhost:3000/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0\"","service":"taskforge-api","timestamp":"2026-05-17 01:51:27"}
+{"level":"info","message":"Server is running on port 5000 in development mode","service":"taskforge-api","timestamp":"2026-05-18 14:57:31"}
+{"level":"info","message":"Connected to Redis successfully","service":"taskforge-api","timestamp":"2026-05-18 14:57:32"}
+{"level":"info","message":"Server is running on port 5000 in development mode","service":"taskforge-api","timestamp":"2026-05-18 16:33:36"}
+{"level":"info","message":"Connected to Redis successfully","service":"taskforge-api","timestamp":"2026-05-18 16:33:36"}
+{"level":"info","message":"Server is running on port 5000 in development mode","service":"taskforge-api","timestamp":"2026-05-18 16:33:48"}
+{"level":"info","message":"Connected to Redis successfully","service":"taskforge-api","timestamp":"2026-05-18 16:33:48"}
